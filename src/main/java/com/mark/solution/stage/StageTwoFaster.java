@@ -8,7 +8,7 @@ import java.util.*;
  * @author: 小蜘蛛(mazhonghao)
  * @create: 2020-11-7 21:20
  **/
-public class StageTwo {
+public class StageTwoFaster {
     // 数字字典映射
     private Map<Integer, String> dic;
 
@@ -57,25 +57,33 @@ public class StageTwo {
             if (arr[index] >= TEN_LIMIT) {
                 String var1 = String.valueOf(arr[index]);
                 char[] chars = var1.toCharArray();
-
-                // 拆分并解析每个数字
-                for (char c : chars) {
-                    Integer var2 = Integer.parseInt(String.valueOf(c));
-                    String var3 = dic.get(var2);
-                    if (var3 != null) {
-                        for (int i = 0; i < var3.length(); i++) {
-                            stringBuffer.append(var3.charAt(i));
-
-                        }
-                    }
-                }
+                // 把char数组转换成int数组，递归处理
+                childRecursion(chars, 0, stringBuffer, arr, resp, index, emptyIndex);
             } else {
                 combine(arr, resp, index, emptyIndex, stringBuffer, arr[index]);
             }
         }
     }
 
-    private void combine(int[] arr, List<String> resp, int index, int emptyIndex, StringBuffer stringBuffer, Integer key){
+    private void childRecursion(char[] chars, int index, StringBuffer stb, int[] arr, List<String> resp, int outIndex, int emptyIndex) {
+        if (chars.length == index) {
+            return;
+        }
+        int key = Integer.parseInt(String.valueOf(chars[index]));
+        String value = dic.get(key);
+        if (value == null) {
+            childRecursion(chars, index + 1, stb, arr, resp, outIndex, emptyIndex);
+        } else {
+            for (int i = 0; i < value.length(); i++) {
+                stb.append(value.charAt(i));
+                childRecursion(chars, index + 1, stb, arr, resp, outIndex, emptyIndex);
+                recursion(arr, resp, outIndex + 1, emptyIndex, stb);
+                stb.deleteCharAt(stb.length() - 1);
+            }
+        }
+    }
+
+    private void combine(int[] arr, List<String> resp, int index, int emptyIndex, StringBuffer stringBuffer, Integer key) {
         String var1 = dic.get(key);
         // 如果是0或1的情况
         if (var1 == null) {
