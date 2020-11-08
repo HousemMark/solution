@@ -8,6 +8,7 @@ import java.util.Map;
 /**
  * @program: 智灵时代广州研发中心
  * @description:基于第一阶段，支持0-99的数字，疑问：如何算是支持？返回空集合（第一阶段已实现）或是拆分后继续进行映射？
+ * @description:直接使用拆分后递归算法，除了双位数，还支持更多位数的运算，如果全是多位数性能与双递归一样。
  * @author: 小蜘蛛(mazhonghao)
  * @create: 2020-11-7 21:20
  **/
@@ -21,14 +22,18 @@ public class StageTwoSimple {
      * 核心算法
      */
     public List<String> solution(int[] arr) {
+        long startTime = System.currentTimeMillis();
         if (arr.length == 0) {
             return new ArrayList<>();
         }
         initMap();
         List<String> resp = new ArrayList<>();
+        // 遍历拆分双位数
         Integer[] arr1 = convertArr(arr);
         // 递归算法
         recursion(arr1, resp, 0, 0, new StringBuffer());
+        long endTime = System.currentTimeMillis();
+        System.out.println("stage two simple running time :" + (endTime - startTime));
         return resp;
     }
 
@@ -69,7 +74,7 @@ public class StageTwoSimple {
      */
     private void recursion(Integer[] arr, List<String> resp, int index, int emptyIndex, StringBuffer stringBuffer) {
         if (arr.length == index) {
-            // 存值
+            // 2-9数字映射存值
             resp.add(stringBuffer.toString());
         } else {
             String var1 = dic.get(arr[index]);

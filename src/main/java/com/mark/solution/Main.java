@@ -15,18 +15,8 @@ import java.util.List;
  **/
 public class Main {
 
+    // 测试用例在test包
     public static void main(String[] args) {
-        int[] arr1 = new int[]{2,1,2,2,2,3};
-        StageOne stageOne = new StageOne();
-        List<String> resp1 = stageOne.solution(arr1);
-        System.out.println("the answer of stage one : " + Arrays.toString(resp1.toArray()));
-        int[] arr2 = new int[]{21,22,23};
-        StageTwoSimple stageTwo = new StageTwoSimple();
-        List<String> resp2 = stageTwo.solution(arr2);
-        System.out.println("the answer of stage two : " + Arrays.toString(resp2.toArray()));
-        int[] arrFast = new int[]{21,22,23};
-        StageTwoFaster stageTwoFaster = new StageTwoFaster();
-        List<String> resp3 = stageTwoFaster.solution(arrFast);
-        System.out.println("the answer of stage two : " + Arrays.toString(resp3.toArray()));
+        System.out.println("application is running...");
     }
 }

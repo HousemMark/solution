@@ -5,6 +5,7 @@ import java.util.*;
 /**
  * @program: 智灵时代广州研发中心
  * @description:基于第一阶段，支持0-99的数字，疑问：如何算是支持？返回空集合（第一阶段已实现）或是拆分后继续进行映射？
+ * @description:采用双递归算法，支持多位数运算，在个位数/多位数混合的组合中，效率会更快
  * @author: 小蜘蛛(mazhonghao)
  * @create: 2020-11-7 21:20
  **/
@@ -18,6 +19,7 @@ public class StageTwoFaster {
      * 核心算法
      */
     public List<String> solution(int[] arr) {
+        long startTime = System.currentTimeMillis();
         if (arr.length == 0) {
             return new ArrayList<>();
         }
@@ -25,6 +27,8 @@ public class StageTwoFaster {
         List<String> resp = new ArrayList<>();
         // 双层递归算法
         recursion(arr, resp, 0, 0, 0, new StringBuffer());
+        long endTime = System.currentTimeMillis();
+        System.out.println("stage two faster running time :" + (endTime - startTime));
         return resp;
     }
 
@@ -44,11 +48,11 @@ public class StageTwoFaster {
     }
 
     /**
-     * 递归，增加拆分个位数和十位数功能
+     * 递归，针对拆分多位数增加子递归
      */
     private void recursion(int[] arr, List<String> resp, int index, int emptyIndex, int childIndex, StringBuffer stringBuffer) {
         if (arr.length == index) {
-            // 存值
+            // 2-9数字映射存值
             if (stringBuffer.length() != 0) {
                 resp.add(stringBuffer.toString());
             }
@@ -57,7 +61,7 @@ public class StageTwoFaster {
             if (arr[index] >= TEN_LIMIT) {
                 String var1 = String.valueOf(arr[index]);
                 char[] chars = var1.toCharArray();
-                // 把char数组转换成int数组，递归处理
+                // 获取多位数，进行子递归处理
                 childRecursion(chars, 0, childIndex, stringBuffer, arr, resp, index, emptyIndex);
             } else {
                 combine(arr, resp, index, childIndex, emptyIndex, stringBuffer, arr[index]);
@@ -65,6 +69,9 @@ public class StageTwoFaster {
         }
     }
 
+    /**
+     * 多位数子递归
+     */
     private void childRecursion(char[] chars, int index, int childIndex, StringBuffer stb, int[] arr, List<String> resp, int outIndex, int emptyIndex) {
         if (chars.length == index) {
             recursion(arr, resp, outIndex + 1, emptyIndex, childIndex, stb);

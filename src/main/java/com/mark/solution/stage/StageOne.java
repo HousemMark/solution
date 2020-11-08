@@ -19,6 +19,7 @@ public class StageOne {
      * 核心算法
      */
     public List<String> solution(int[] arr) {
+        long startTime = System.currentTimeMillis();
         if (arr.length == 0) {
             return new ArrayList<>();
         }
@@ -26,6 +27,8 @@ public class StageOne {
         List<String> resp = new ArrayList<>();
         // 递归算法
         recursion(arr, resp, 0, 0, new StringBuffer());
+        long endTime = System.currentTimeMillis();
+        System.out.println("stage one running time :" + (endTime - startTime));
         return resp;
     }
 
@@ -49,7 +52,7 @@ public class StageOne {
      */
     private void recursion(int[] arr, List<String> resp, int index, int emptyIndex, StringBuffer stringBuffer) {
         if (arr.length == index) {
-            // 存值
+            // 2-9数字映射存值
             resp.add(stringBuffer.toString());
         } else {
             String var1 = dic.get(arr[index]);
