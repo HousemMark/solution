@@ -1,7 +1,7 @@
 package com.mark.solution;
 
 import com.mark.solution.stage.StageOne;
-import com.mark.solution.stage.StageTwo;
+import com.mark.solution.stage.StageTwoFaster;
 import com.mark.solution.stage.StageTwoSimple;
 
 import java.util.Arrays;
@@ -24,5 +24,9 @@ public class Main {
         StageTwoSimple stageTwo = new StageTwoSimple();
         List<String> resp2 = stageTwo.solution(arr2);
         System.out.println("the answer of stage two : " + Arrays.toString(resp2.toArray()));
+        int[] arrFast = new int[]{21,22,23};
+        StageTwoFaster stageTwoFaster = new StageTwoFaster();
+        List<String> resp3 = stageTwoFaster.solution(arrFast);
+        System.out.println("the answer of stage two : " + Arrays.toString(resp3.toArray()));
     }
 }
