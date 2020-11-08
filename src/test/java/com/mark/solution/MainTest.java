@@ -3,6 +3,7 @@ package com.mark.solution;
 import com.mark.solution.stage.StageOne;
 import com.mark.solution.stage.StageTwoFaster;
 import com.mark.solution.stage.StageTwoSimple;
+import org.junit.Assert;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,11 +17,11 @@ public class MainTest {
         stageOne = new StageOne();
         stageTwoSimple = new StageTwoSimple();
         stageTwoFaster = new StageTwoFaster();
-        // 0-9 测试用例
+        // 0-9 testing case
         testTenLimit(stageOne, stageTwoSimple, stageTwoFaster);
-        // 0-99 测试用例
+        // 0-99 testing case
         testHundredLimit(stageOne, stageTwoSimple, stageTwoFaster);
-        // 多位数测试用例
+        // more digits' testing case
         testMultipleLimit(stageOne, stageTwoSimple, stageTwoFaster);
     }
 

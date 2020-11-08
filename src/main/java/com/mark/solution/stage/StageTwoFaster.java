@@ -3,20 +3,18 @@ package com.mark.solution.stage;
 import java.util.*;
 
 /**
- * @program: 智灵时代广州研发中心
- * @description:基于第一阶段，支持0-99的数字，疑问：如何算是支持？返回空集合（第一阶段已实现）或是拆分后继续进行映射？
- * @description:采用双递归算法，支持多位数运算，在个位数/多位数混合的组合中，效率会更快
- * @author: 小蜘蛛(mazhonghao)
+ * @program: converting the digits from 0 to 99 into letters
+ * @author: mazhonghao
  * @create: 2020-11-7 21:20
  **/
 public class StageTwoFaster {
-    // 数字字典映射
+    // number dictionary map
     private Map<Integer, String> dic;
 
     private Integer TEN_LIMIT = 10;
 
     /**
-     * 核心算法
+     * main algorithm
      */
     public List<String> solution(int[] arr) {
         long startTime = System.currentTimeMillis();
@@ -25,7 +23,7 @@ public class StageTwoFaster {
         }
         initMap();
         List<String> resp = new ArrayList<>();
-        // 双层递归算法
+        // double recursion algorithm
         recursion(arr, resp, 0, 0, 0, new StringBuffer());
         long endTime = System.currentTimeMillis();
         System.out.println("stage two faster running time :" + (endTime - startTime));
@@ -33,7 +31,7 @@ public class StageTwoFaster {
     }
 
     /**
-     * 初始化Map映射
+     * init dictionary mapping
      */
     private void initMap() {
         dic = new HashMap<>();
@@ -48,29 +46,31 @@ public class StageTwoFaster {
     }
 
     /**
-     * 递归，针对拆分多位数增加子递归
+     * recursion algorithm
      */
     private void recursion(int[] arr, List<String> resp, int index, int emptyIndex, int childIndex, StringBuffer stringBuffer) {
         if (arr.length == index) {
-            // 2-9数字映射存值
+            // 2-9 mapping is allowed to the result
             if (stringBuffer.length() != 0) {
                 resp.add(stringBuffer.toString());
             }
         } else {
-            // 如果超过10，将其拆分后进行递归映射
+            // number is over than 10, split it, then doing the second recursion one by one
             if (arr[index] >= TEN_LIMIT) {
                 String var1 = String.valueOf(arr[index]);
+                // get the chars
                 char[] chars = var1.toCharArray();
-                // 获取多位数，进行子递归处理
+                // the second recursion
                 childRecursion(chars, 0, childIndex, stringBuffer, arr, resp, index, emptyIndex);
             } else {
+                // normal recursion
                 combine(arr, resp, index, childIndex, emptyIndex, stringBuffer, arr[index]);
             }
         }
     }
 
     /**
-     * 多位数子递归
+     * the second recursion algorithm
      */
     private void childRecursion(char[] chars, int index, int childIndex, StringBuffer stb, int[] arr, List<String> resp, int outIndex, int emptyIndex) {
         if (chars.length == index) {
@@ -92,15 +92,15 @@ public class StageTwoFaster {
 
     private void combine(int[] arr, List<String> resp, int index, int childIndex, int emptyIndex, StringBuffer stringBuffer, Integer key) {
         String var1 = dic.get(key);
-        // 如果是0或1的情况
+        // 0 or 1
         if (var1 == null) {
             recursion(arr, resp, index + 1, emptyIndex + 1, childIndex + 1, stringBuffer);
         } else {
-            // 遍历后继续递归
+            // iterate then recursion
             for (int i = 0; i < var1.length(); i++) {
                 stringBuffer.append(var1.charAt(i));
                 recursion(arr, resp, index + 1, emptyIndex, childIndex + 1, stringBuffer);
-                // 清理旧数据
+                // clean the old data
                 stringBuffer.deleteCharAt(index - emptyIndex);
             }
         }

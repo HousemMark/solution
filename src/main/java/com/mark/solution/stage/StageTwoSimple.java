@@ -6,20 +6,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @program: 智灵时代广州研发中心
- * @description:基于第一阶段，支持0-99的数字，疑问：如何算是支持？返回空集合（第一阶段已实现）或是拆分后继续进行映射？
- * @description:直接使用拆分后递归算法，除了双位数，还支持更多位数的运算，如果全是多位数性能与双递归一样。
- * @author: 小蜘蛛(mazhonghao)
+ * @program: converting the digits from 0 to 99 into letters
+ * @author: mazhonghao
  * @create: 2020-11-7 21:20
  **/
 public class StageTwoSimple {
-    // 数字字典映射
+    // number dictionary map
     private Map<Integer, String> dic;
 
     private Integer TEN_LIMIT = 10;
 
     /**
-     * 核心算法
+     * main algorithm
      */
     public List<String> solution(int[] arr) {
         long startTime = System.currentTimeMillis();
@@ -28,9 +26,9 @@ public class StageTwoSimple {
         }
         initMap();
         List<String> resp = new ArrayList<>();
-        // 遍历拆分双位数
+        // iterate and spilt the numbers
         Integer[] arr1 = convertArr(arr);
-        // 递归算法
+        // recursion algorithm
         recursion(arr1, resp, 0, 0, new StringBuffer());
         long endTime = System.currentTimeMillis();
         System.out.println("stage two simple running time :" + (endTime - startTime));
@@ -55,7 +53,7 @@ public class StageTwoSimple {
     }
 
     /**
-     * 初始化Map映射
+     * init dictionary mapping
      */
     private void initMap() {
         dic = new HashMap<>();
@@ -70,23 +68,23 @@ public class StageTwoSimple {
     }
 
     /**
-     * 递归，增加拆分个位数和十位数功能
+     * recursion algorithm
      */
     private void recursion(Integer[] arr, List<String> resp, int index, int emptyIndex, StringBuffer stringBuffer) {
         if (arr.length == index) {
-            // 2-9数字映射存值
+            // 2-9 mapping is allowed to the result
             resp.add(stringBuffer.toString());
         } else {
             String var1 = dic.get(arr[index]);
-            // 如果是0或1的情况
+            // 0 or 1
             if (var1 == null) {
                 recursion(arr, resp, index + 1, emptyIndex + 1, stringBuffer);
             } else {
-                // 遍历后继续递归
+                // iterate then recursion
                 for (int i = 0; i < var1.length(); i++) {
                     stringBuffer.append(var1.charAt(i));
                     recursion(arr, resp, index + 1, emptyIndex, stringBuffer);
-                    // 清理旧数据
+                    // clean the old data
                     stringBuffer.deleteCharAt(index - emptyIndex);
                 }
             }
